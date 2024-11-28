@@ -1,36 +1,41 @@
-name: Deploy .NET app to Azure Web App
+name: Deploy .NET 9 Web App to Azure
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      # Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '9.0.x'  # Cambiado a .NET 9
+      # Set up .NET
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '9.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
+      # Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+      # Build the application
+      - name: Build
+        run: dotnet build --configuration Release
 
-    - name: Publish
-      run: dotnet publish --configuration Release --output ./publish --no-build
+      # Publish the application
+      - name: Publish
+        run: dotnet publish --configuration Release --output ./publish
 
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: IAapp-${{ secrets.AZURE_WEBAPP_NAME }}  # Nombre de tu aplicación en Azure
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: ./publish
+      # Deploy to Azure
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'nombre-de-tu-app-web-en-azure'
+          slot-name: 'production'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./publish
