@@ -54,3 +54,4 @@ jobs:
           slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FC4B1C412023401BBFED77F47B8E8AE5 }}
+          startup-command: 'dotnet IAprojekt.dll --urls http://0.0.0.0:8080'
