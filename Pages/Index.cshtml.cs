@@ -1,19 +1,16 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
-namespace Webapp.Pages;
 
 public class IndexModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
-
-    public IndexModel(ILogger<IndexModel> logger)
-    {
-        _logger = logger;
-    }
+    public string Message { get; set; }
 
     public void OnGet()
     {
+    }
 
+    public void OnPost(string message)
+    {
+        // Guardamos el mensaje sin escaparlo para demostrar la vulnerabilidad XSS
+        Message = message;
     }
 }
