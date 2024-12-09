@@ -1,4 +1,4 @@
 # IAprojekt
 
 
-Hola que tal 
+Hola que tal ,. como estas
