@@ -3,7 +3,7 @@ name: Deploy Webapp to Azure VM
 on:
   push:
     branches:
-      - main # Cambia si tu rama principal es diferente
+      - main
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '9.0' # Versión de .NET que estás usando
+        dotnet-version: '9.0'
 
     - name: Build Webapp
       run: |
@@ -24,18 +24,18 @@ jobs:
         dotnet publish Webapp.csproj -c Release -o ./publish
 
     - name: Copy Files to Azure VM
-      uses: appleboy/scp-action@v0.1.8
+      uses: appleboy/scp-action@v0.1.10 # Versión actualizada
       with:
-        host: 52.169.18.180 # IP pública de tu máquina virtual
+        host: 52.169.18.180 # Reemplaza con la IP de tu VM
         username: azureuser
         key: ${{ secrets.AZURE_VM_SSH_KEY }}
         source: ./Webapp/publish/
         target: /var/www/webapp
 
     - name: Restart Application on Azure VM
-      uses: appleboy/ssh-action@v0.1.8
+      uses: appleboy/ssh-action@v0.1.10 # Versión actualizada
       with:
-        host: 52.169.18.180 # IP pública de tu máquina virtual
+        host: 52.169.18.180 # Reemplaza con la IP de tu VM
         username: azureuser
         key: ${{ secrets.AZURE_VM_SSH_KEY }}
         script: |
