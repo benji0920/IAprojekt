@@ -1,0 +1,42 @@
+name: Deploy Webapp to Azure VM
+
+on:
+  push:
+    branches:
+      - main # Cambia si usas otra rama principal
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0' # Versión de .NET que estás usando
+
+    - name: Build Webapp
+      run: |
+        cd webapp
+        dotnet publish -c Release -o ./publish
+
+    - name: Copy Files to Azure VM
+      uses: appleboy/scp-action@v0.1.8
+      with:
+        host: 52.169.18.180 # Tu IP pública
+        username: azureuser
+        key: ${{ secrets.AZURE_VM_SSH_KEY }}
+        source: ./webapp/publish/
+        target: /var/www/webapp
+
+    - name: Restart Application on Azure VM
+      uses: appleboy/ssh-action@v0.1.8
+      with:
+        host: 52.169.18.180 # Tu IP pública
+        username: azureuser
+        key: ${{ secrets.AZURE_VM_SSH_KEY }}
+        script: |
+          sudo systemctl restart kestrel-webapp.service
