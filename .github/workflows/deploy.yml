@@ -24,19 +24,9 @@ jobs:
         dotnet publish Webapp.csproj -c Release -o ./publish
 
     - name: Copy Files to Azure VM
-      uses: appleboy/scp-action@v0.1.10 # Versión actualizada
-      with:
-        host: 52.169.18.180 # Reemplaza con la IP de tu VM
-        username: azureuser
-        key: ${{ secrets.AZURE_VM_SSH_KEY }}
-        source: ./Webapp/publish/
-        target: /var/www/webapp
+      run: |
+        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./Webapp/publish/* azureuser@52.169.18.180:/var/www/webapp/
 
     - name: Restart Application on Azure VM
-      uses: appleboy/ssh-action@v0.1.10 # Versión actualizada
-      with:
-        host: 52.169.18.180 # Reemplaza con la IP de tu VM
-        username: azureuser
-        key: ${{ secrets.AZURE_VM_SSH_KEY }}
-        script: |
-          sudo systemctl restart kestrel-webapp.service
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azureuser@52.169.18.180 "sudo systemctl restart kestrel-webapp.service"
