@@ -22,6 +22,12 @@ jobs:
       run: |
         dotnet publish Webapp.csproj -c Release -o ./publish
 
+    - name: Add SSH Key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.AZURE_VM_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
     - name: Copy Files to Azure VM
       run: |
         scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./publish/* azureuser@52.169.18.180:/var/www/webapp/
