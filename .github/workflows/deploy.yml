@@ -20,12 +20,11 @@ jobs:
 
     - name: Build Webapp
       run: |
-        cd Webapp
         dotnet publish Webapp.csproj -c Release -o ./publish
 
     - name: Copy Files to Azure VM
       run: |
-        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./Webapp/publish/* azureuser@52.169.18.180:/var/www/webapp/
+        scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./publish/* azureuser@52.169.18.180:/var/www/webapp/
 
     - name: Restart Application on Azure VM
       run: |
