@@ -27,6 +27,7 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.AZURE_VM_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H 52.169.18.180 >> ~/.ssh/known_hosts
 
     - name: Copy Files to Azure VM
       run: |
