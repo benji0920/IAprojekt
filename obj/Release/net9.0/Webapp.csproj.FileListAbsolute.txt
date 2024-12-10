@@ -102,3 +102,15 @@ C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\apps
 C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\Webapp.deps.json
 C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\Webapp.runtimeconfig.json
 C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\Webapp.staticwebassets.endpoints.json
+C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\publish\web.config
+C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\publish\appsettings.Development.json
+C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\publish\appsettings.json
+C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\publish\Webapp.deps.json
+C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\publish\Webapp.runtimeconfig.json
+C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\publish\Webapp.staticwebassets.endpoints.json
+C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\publish\publish\web.config
+C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\publish\publish\appsettings.Development.json
+C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\publish\publish\appsettings.json
+C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\publish\publish\Webapp.deps.json
+C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\publish\publish\Webapp.runtimeconfig.json
+C:\Users\BenjiSalas\Development\IAprojekt\Webapp\bin\Release\net9.0\publish\publish\publish\Webapp.staticwebassets.endpoints.json
