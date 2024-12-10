@@ -1,4 +1,4 @@
-name: Deploy Webapp to Azure VM
+name: Deploy to Azure VM
 
 on:
   push:
@@ -13,26 +13,39 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '9.0'
-
-    - name: Build Webapp
-      run: |
-        dotnet publish Webapp.csproj -c Release -o ./publish
-
-    - name: Add SSH Key
+    - name: Set Up SSH Key
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.AZURE_VM_SSH_KEY }}" > ~/.ssh/id_rsa
+        echo "-----BEGIN RSA PRIVATE KEY-----
+        MIIEpAIBAAKCAQEAkeahAWa8n+cgnKT7vLink/9+2dJeGo0eDQ7Q+/SlS2sqjgva
+        oAovnS78bBQa/DHxMZZzimO+I/ZKLqoQ2afe6M19OlewvacslDzQJBde1L6joHWs
+        KJD9YX3egV7QlfYIQOS1up3VZlkKyEn8wAIzMI4Twrb0sYJLTQZymcO9p8LnKYwW
+        ehU0TvrgKHUW4QtMaBfAbEpLxRk3zs9dpceVhTF2QmWto12I+iGqqMyGfjI0QT+8
+        hU/2QK1VcRpussFgn33HYb7PpbNJWCT3nVR4FPymgOov9Jyufh0Ylhqxkm/RurlF
+        852u+um0Dm8sIohPKBnCrthuMbH4lX4E1QZblwIDAQABAoIBAA+SSDvAjcAZKFNf
+        jlh5crUqbwzrVUzLI9pr6uUBGsUeVmfbnwU2oRdLBPi5+plQ8TeEIaey9n+bERbC
+        4tKABpvdFpDr+/p5xZm6ldJMRjw5bng5Jtsbgldt2hn/lw5yODZI0pZssvJd7Xcr
+        4lRRx8nWWAiPgzUQvV2mowODLxIg40uimpaSJEMJXwNFVp/d9ct4DxgRn3zoFBOG
+        gX7U56fWisTYgE+p2LGH4yJXFHzvpSEwJnUPwBOWCO3KaZRafnkhtw9oSKE86swO
+        hHSGdx1V9kFSiEbC0MwHKn2+sTYFf9sq57LF/00CbyoXpo980WuJrb8L8bCkjhZs
+        X01SjBkCgYEAxlz1qKXIa7igrphQ4014wjt7wjP4HlQrYgLMC0qPoXyFNqZpLGpL
+        /GlRj46JCT7FdqGgrv2BnOof5pnxB83ES+0jDbZMOn44IYwZlE53gtzkrU53PfXh
+        nQBJthL0l68yhH09ynHfuni+QODIp14GdCP8yUeYUNuHTulw2OLI998CgYEAvEtR
+        xvZwgu4+J/NHSV1F3+5bl7wcPrvPgzRuKCmJlybqaPQOB9BnkJPwdFNVcqtyAjyW
+        2V4TAYDucPONDPn1MylobM4KXLv3YA1wAFufBncPvCyVG6KkLDvRkoj2KA/5uVUr
+        4ceMuaMHMOmnckLbBFfLv35bQ2XJNNOngaNx80kCgYEAm3P+kUxa5RCr3ChCO+Ba
+        4tz7ABb6O8p6tTS7851bMpMDUvDXO5eSNR3UbUym2Df5SB8ibgD9sptIpM+/tP3s
+        +BO/hN94nd6M3r2Mzk0wG75A+BCmIkivpvqyyZ3RUY5baLk904mqa9h0QSPoHEHz
+        jNEnKhaRp8xjHdSUO2R/WsECgYAzr+FE4oVEC64YPVnGM8poi/+siUCfn+J4u725
+        XJ2eVlpmcQgg8P5c259X70A3eASVxJgMFxzUftX1P4Xql/rNDoLRy0Vg62Aeh9HE
+        52Gh3rD9EKflrCGw2sLOnLYljS0ZyN2A3swscSoaLSl/3gZNDOSrLj5TI++1hpwm
+        o/01sQKBgQC+YBNKqpXVwghwCfxAKxiwwVqu4gKm5Ttzx5so8D4m3lt0wiIXC4xZ
+        gHhGNY0NuHPzrkE6kcBmZjEGfNOBNaQ7VbEAG2YZTMdhIEXR/+YDWus7ZkgL6rVm
+        H3597cEWbpbmvbgu5Q5+bjq/NW+PX8JQfw7NUuRlBaylEk/EyuJ4Qw==
+        -----END RSA PRIVATE KEY-----" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H 52.169.18.180 >> ~/.ssh/known_hosts
 
     - name: Copy Files to Azure VM
       run: |
         scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./publish/* azureuser@52.169.18.180:/var/www/webapp/
-
-    - name: Restart Application on Azure VM
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azureuser@52.169.18.180 "sudo systemctl restart kestrel-webapp.service"
